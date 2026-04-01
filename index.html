@@ -1,0 +1,761 @@
+&lt;!DOCTYPE html&gt;<br />
+
+<html lang="ru">
+<head>
+<head>
+<meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+Декомпозиция выручки — ABRA CLUB
+</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Geologica:wght@300;400;500&display=swap" rel="stylesheet"><br />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Geologica:wght@300;400;500&display=swap" rel="stylesheet"><br />
+
+<style>
+<style>  
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }  
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }  
+ :root {  
+ :root {  
+   --bg: #0e0e0e; --surface: #181818; --surface2: #222222;  
+   --bg: #0e0e0e; --surface: #181818; --surface2: #222222;  
+   --border: #2a2a2a; --accent: #c8f135; --text: #f0f0f0;  
+   --muted: #666; --radius: 16px;  
+   --muted: #666; --radius: 16px;  
+ }  
+ }  
+ body { background: var(--bg); color: var(--text); font-family: 'Geologica', sans-serif; font-weight: 300; min-height: 100vh; padding: 40px 20px 80px; }  
+ .noise { position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.4; }  
+ .noise { position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.4; }  
+ .wrap { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }  
+ .wrap { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }  
+   
+ .header { margin-bottom: 48px; }  
+ .header { margin-bottom: 48px; }  
+ .logo { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 24px; display: block; }  
+ .logo { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 24px; display: block; }  
+ h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(26px, 5vw, 42px); font-weight: 900; line-height: 1.1; margin-bottom: 16px; }  
+ h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(26px, 5vw, 42px); font-weight: 900; line-height: 1.1; margin-bottom: 16px; }  
+ h1 span { color: var(--accent); }  
+ h1 span { color: var(--accent); }  
+ .subtitle { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 520px; }  
+ .subtitle { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 520px; }  
+   
+ .goal-block { background: var(--accent); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }  
+ .goal-label { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; color: #0e0e0e; letter-spacing: 0.12em; white-space: nowrap; }  
+ .goal-input-wrap { flex: 1; min-width: 160px; }  
+ .goal-input { width: 100%; background: rgba(0,0,0,0.12); border: 2px solid rgba(0,0,0,0.15); border-radius: 10px; padding: 11px 14px; font-family: 'Unbounded', sans-serif; font-size: 20px; font-weight: 900; color: #0e0e0e; outline: none; }  
+ .goal-input { width: 100%; background: rgba(0,0,0,0.12); border: 2px solid rgba(0,0,0,0.15); border-radius: 10px; padding: 11px 14px; font-family: 'Unbounded', sans-serif; font-size: 20px; font-weight: 900; color: #0e0e0e; outline: none; }  
+ .goal-input::placeholder { color: rgba(0,0,0,0.3); }  
+   
+ .currency-select { font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 900; color: #0e0e0e; background: rgba(0,0,0,0.12); border: 2px solid rgba(0,0,0,0.15); border-radius: 10px; padding: 11px 12px; cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; }  
+ .currency-select option { background: #181818; color: #f0f0f0; font-family: sans-serif; font-size: 14px; }  
+ .per-month { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; color: rgba(0,0,0,0.4); white-space: nowrap; }  
+   
+ .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }  
+ .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }  
+ @media(max-width: 520px) { .grid { grid-template-columns: 1fr; } }  
+ .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }  
+ .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }  
+ .card-label { font-size: 11px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; font-weight: 500; }  
+ .card-label { font-size: 11px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 12px; font-weight: 500; }  
+ .card-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); outline: none; transition: border-color 0.2s; }  
+ .card-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); outline: none; transition: border-color 0.2s; }  
+ .card-input:focus { border-color: var(--accent); }  
+ .card-input:focus { border-color: var(--accent); }  
+ .card-hint { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }  
+ .card-hint { font-size: 12px; color: var(--muted); margin-top: 8px; line-height: 1.5; }  
+ input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: var(--border); border-radius: 2px; outline: none; cursor: pointer; margin-top: 10px; }  
+ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; cursor: pointer; }  
+ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; cursor: pointer; }  
+ .slider-val { font-family: 'Unbounded', sans-serif; font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }  
+   
+ .divider { display: flex; align-items: center; gap: 12px; margin: 8px 0; color: var(--muted); font-size: 12px; letter-spacing: 0.1em; }  
+ .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }  
+   
+ .results { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }  
+ .results { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px; }  
+ .results-header { background: var(--surface2); padding: 16px 24px; border-bottom: 1px solid var(--border); font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }  
+ .result-row { display: flex; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--border); gap: 16px; }  
+ .result-row:last-child { border-bottom: none; }  
+ .result-row:last-child { border-bottom: none; }  
+ .result-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }  
+ .result-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }  
+ .green { background: rgba(200,241,53,0.12); }  
+ .orange { background: rgba(255,92,58,0.12); }  
+ .orange { background: rgba(255,92,58,0.12); }  
+ .blue { background: rgba(100,160,255,0.12); }  
+ .blue { background: rgba(100,160,255,0.12); }  
+ .purple { background: rgba(180,100,255,0.12); }  
+ .purple { background: rgba(180,100,255,0.12); }  
+ .result-text { flex: 1; }  
+ .result-name { font-size: 13px; color: var(--muted); margin-bottom: 4px; }  
+ .result-val { font-family: 'Unbounded', sans-serif; font-size: 22px; font-weight: 900; }  
+ .result-val.hl { color: var(--accent); }  
+ .result-note { font-size: 11px; color: var(--muted); margin-top: 2px; }  
+ .result-note { font-size: 11px; color: var(--muted); margin-top: 2px; }  
+   
+ .funnel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; }  
+ .funnel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; }  
+ .funnel-title { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; }  
+ .funnel-title { font-family: 'Unbounded', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; }  
+ .funnel-step { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }  
+ .funnel-step { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }  
+ .funnel-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }  
+ .funnel-bar-wrap { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }  
+ .funnel-bar { height: 100%; border-radius: 4px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }  
+ .funnel-label { font-size: 12px; color: var(--muted); width: 80px; text-align: right; white-space: nowrap; }  
+ .funnel-count { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 700; width: 80px; text-align: right; }  
+ .funnel-count { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 700; width: 80px; text-align: right; }  
+   
+ .insight { background: linear-gradient(135deg, rgba(200,241,53,0.08), rgba(200,241,53,0.03)); border: 1px solid rgba(200,241,53,0.2); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; }  
+ .insight { background: linear-gradient(135deg, rgba(200,241,53,0.08), rgba(200,241,53,0.03)); border: 1px solid rgba(200,241,53,0.2); border-radius: var(--radius); padding: 24px; margin-bottom: 24px; }  
+ .insight-label { font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }  
+ .insight-label { font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }  
+ .insight-text { font-size: 14px; line-height: 1.7; color: #ccc; }  
+ .insight-text { font-size: 14px; line-height: 1.7; color: #ccc; }  
+ .insight-text strong { color: var(--accent); font-weight: 500; }  
+ .insight-text strong { color: var(--accent); font-weight: 500; }  
+   
+ .footer { text-align: center; padding-top: 32px; border-top: 1px solid var(--border); }  
+ .footer { text-align: center; padding-top: 32px; border-top: 1px solid var(--border); }  
+ .footer-logo { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 900; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 8px; }  
+ .footer-sub { font-size: 12px; color: var(--muted); }  
+ .footer-sub { font-size: 12px; color: var(--muted); }  
+   
+ @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }  
+ .wrap > * { animation: fadeUp 0.5s ease both; }  
+ .wrap > * { animation: fadeUp 0.5s ease both; }  
+ .wrap > *:nth-child(1) { animation-delay: 0.05s; }  
+ .wrap > *:nth-child(2) { animation-delay: 0.1s; }  
+ .wrap > *:nth-child(2) { animation-delay: 0.1s; }  
+ .wrap > *:nth-child(3) { animation-delay: 0.15s; }  
+ .wrap > *:nth-child(3) { animation-delay: 0.15s; }  
+ .wrap > *:nth-child(4) { animation-delay: 0.2s; }  
+ .wrap > *:nth-child(5) { animation-delay: 0.25s; }  
+ .wrap > *:nth-child(5) { animation-delay: 0.25s; }  
+ .wrap > *:nth-child(6) { animation-delay: 0.3s; }  
+</style>
+</head>
+</head>
+<body>
+<div class="noise">
+
+</div>
+<div class="noise">
+
+</div>
+<div class="wrap">
+ <br />
+ 
+<div class="header">
+ 
+<div class="header">
+   <span class="logo">ABRA CLUB — ИНСТРУМЕНТЫ</span><br />
+   
+<h1>
+Декомпозиция <span>выручки</span>
+</h1>
+   
+<h1>
+Декомпозиция <span>выручки</span>
+</h1>
+   
+<p class="subtitle">
+Введи цель и параметры своей воронки — и узнай сколько лидов, касаний и
+сделок нужно чтобы выйти на нужную цифру.
+</p>
+   
+<p class="subtitle">
+Введи цель и параметры своей воронки — и узнай сколько лидов, касаний и
+сделок нужно чтобы выйти на нужную цифру.
+</p>
+ 
+</div>
+ <br />
+ 
+<div class="goal-block">
+   
+<div class="goal-label">
+ЦЕЛЬ
+</div>
+   
+<div class="goal-input-wrap">
+   
+ <input class="goal-input" type="number" id="goal" value="1000000" placeholder="1 000 000"><br />
+   
+ <input class="goal-input" type="number" id="goal" value="1000000" placeholder="1 000 000"><br />
+   
+</div>
+   
+</div>
+   <select class="currency-select" id="currency"><br />
+     <option value="₽">₽</option><br />
+     <option value="$">$</option><br />
+     <option value="€">€</option><br />
+     <option value="£">£</option><br />
+     <option value="£">£</option><br />
+     <option value="₺">₺</option><br />
+     <option value="₺">₺</option><br />
+     <option value="₴">₴</option><br />
+     <option value="₸">₸</option><br />
+     <option value="¥">¥</option><br />
+   </select><br />
+   </select><br />
+   
+<div class="per-month">
+/ МЕС
+</div>
+ 
+</div>
+ 
+</div>
+ <br />
+ 
+<div class="grid">
+   
+<div class="card">
+   
+<div class="card">
+     
+<div class="card-label">
+Средний чек
+</div>
+   
+ <input class="card-input" type="number" id="check" value="15000" placeholder="15000"><br />
+   
+ <input class="card-input" type="number" id="check" value="15000" placeholder="15000"><br />
+     
+<div class="card-hint">
+Сколько платит один клиент за сделку
+</div>
+     
+<div class="card-hint">
+Сколько платит один клиент за сделку
+</div>
+   
+</div>
+   
+</div>
+   
+<div class="card">
+   
+<div class="card">
+     
+<div class="card-label">
+Конверсия в продажу
+</div>
+     
+<div class="card-label">
+Конверсия в продажу
+</div>
+     
+<div class="slider-val">
+<span id="conv-val">20</span>%
+</div>
+     <input type="range" id="conv" min="1" max="80" value="20"><br />
+     <input type="range" id="conv" min="1" max="80" value="20"><br />
+     
+<div class="card-hint">
+Сколько % лидов становятся клиентами
+</div>
+     
+<div class="card-hint">
+Сколько % лидов становятся клиентами
+</div>
+   
+</div>
+   
+<div class="card">
+     
+<div class="card-label">
+Конверсия в лид
+</div>
+     
+<div class="card-label">
+Конверсия в лид
+</div>
+     
+<div class="slider-val">
+<span id="lead-conv-val">30</span>%
+</div>
+   
+ <input type="range" id="lead-conv" min="1" max="80" value="30"><br />
+     
+<div class="card-hint">
+Сколько % охвата оставляет заявку
+</div>
+   
+</div>
+   
+<div class="card">
+   
+<div class="card">
+     
+<div class="card-label">
+Повторные покупки
+</div>
+     
+<div class="card-label">
+Повторные покупки
+</div>
+     
+<div class="slider-val">
+<span id="repeat-val">0</span>%
+</div>
+     <input type="range" id="repeat" min="0" max="80" value="0"><br />
+     <input type="range" id="repeat" min="0" max="80" value="0"><br />
+     
+<div class="card-hint">
+% клиентов которые купят снова
+</div>
+   
+</div>
+ 
+</div>
+ 
+</div>
+ <br />
+ 
+<div class="divider">
+РЕЗУЛЬТАТ
+</div>
+ 
+<div class="divider">
+РЕЗУЛЬТАТ
+</div>
+ <br />
+ 
+<div class="results">
+   
+<div class="results-header">
+Что нужно сделать за месяц
+</div>
+   
+<div class="result-row">
+     
+<div class="result-icon green">
+🎯
+</div>
+     
+<div class="result-icon green">
+🎯
+</div>
+     
+<div class="result-text">
+       
+<div class="result-name">
+Продаж нужно закрыть
+</div>
+       
+<div id="r-deals" class="result-val hl">
+—
+</div>
+       
+<div class="result-note">
+сделок в месяц
+</div>
+       
+<div class="result-note">
+сделок в месяц
+</div>
+     
+</div>
+     
+</div>
+   
+</div>
+   
+<div class="result-row">
+   
+<div class="result-row">
+     
+<div class="result-icon orange">
+📥
+</div>
+     
+<div class="result-text">
+     
+<div class="result-text">
+       
+<div class="result-name">
+Лидов нужно получить
+</div>
+       
+<div id="r-leads" class="result-val">
+—
+</div>
+       
+<div class="result-note">
+заявок / обращений в месяц
+</div>
+       
+<div class="result-note">
+заявок / обращений в месяц
+</div>
+     
+</div>
+     
+</div>
+   
+</div>
+   
+</div>
+   
+<div class="result-row">
+     
+<div class="result-icon blue">
+👁️
+</div>
+     
+<div class="result-icon blue">
+👁️
+</div>
+     
+<div class="result-text">
+       
+<div class="result-name">
+Охват / трафик нужен
+</div>
+       
+<div id="r-traffic" class="result-val">
+—
+</div>
+       
+<div id="r-traffic" class="result-val">
+—
+</div>
+       
+<div class="result-note">
+уникальных контактов с оффером
+</div>
+       
+<div class="result-note">
+уникальных контактов с оффером
+</div>
+     
+</div>
+     
+</div>
+   
+</div>
+   
+<div class="result-row">
+     
+<div class="result-icon purple">
+📅
+</div>
+     
+<div class="result-icon purple">
+📅
+</div>
+     
+<div class="result-text">
+       
+<div class="result-name">
+В день это
+</div>
+       
+<div id="r-daily" class="result-val">
+—
+</div>
+       
+<div id="r-daily" class="result-val">
+—
+</div>
+       
+<div class="result-note">
+лидов каждый рабочий день
+</div>
+       
+<div class="result-note">
+лидов каждый рабочий день
+</div>
+     
+</div>
+   
+</div>
+ 
+</div>
+ 
+</div>
+ <br />
+ 
+<div class="funnel">
+ 
+<div class="funnel">
+   
+<div class="funnel-title">
+Визуализация воронки
+</div>
+   
+<div class="funnel-title">
+Визуализация воронки
+</div>
+   
+<div class="funnel-step">
+   
+<div class="funnel-step">
+     
+<div class="funnel-label">
+Охват
+</div>
+     
+<div class="funnel-bar-wrap">
+<div id="bar-traffic" class="funnel-bar"
+style="width:100%;background:#c8f135;opacity:0.35">
+
+</div>
+</div>
+     
+<div class="funnel-bar-wrap">
+<div id="bar-traffic" class="funnel-bar"
+style="width:100%;background:#c8f135;opacity:0.35">
+
+</div>
+</div>
+     
+<div id="fn-traffic" class="funnel-count" style="color:#c8f135">
+—
+</div>
+     
+<div id="fn-traffic" class="funnel-count" style="color:#c8f135">
+—
+</div>
+   
+</div>
+   
+<div class="funnel-step">
+   
+<div class="funnel-step">
+     
+<div class="funnel-label">
+Лиды
+</div>
+     
+<div class="funnel-bar-wrap">
+<div id="bar-leads" class="funnel-bar"
+style="width:60%;background:#64a0ff;opacity:0.7">
+
+</div>
+</div>
+     
+<div class="funnel-bar-wrap">
+<div id="bar-leads" class="funnel-bar"
+style="width:60%;background:#64a0ff;opacity:0.7">
+
+</div>
+</div>
+     
+<div id="fn-leads" class="funnel-count" style="color:#64a0ff">
+—
+</div>
+     
+<div id="fn-leads" class="funnel-count" style="color:#64a0ff">
+—
+</div>
+   
+</div>
+   
+</div>
+   
+<div class="funnel-step">
+     
+<div class="funnel-label">
+Продажи
+</div>
+     
+<div class="funnel-label">
+Продажи
+</div>
+     
+<div class="funnel-bar-wrap">
+<div id="bar-deals" class="funnel-bar"
+style="width:20%;background:#ff5c3a">
+
+</div>
+</div>
+     
+<div id="fn-deals" class="funnel-count" style="color:#ff5c3a">
+—
+</div>
+     
+<div id="fn-deals" class="funnel-count" style="color:#ff5c3a">
+—
+</div>
+   
+</div>
+   
+<div class="funnel-step">
+   
+<div class="funnel-step">
+     
+<div class="funnel-label">
+Выручка
+</div>
+     
+<div class="funnel-label">
+Выручка
+</div>
+     
+<div class="funnel-bar-wrap">
+<div id="bar-rev" class="funnel-bar"
+style="width:10%;background:#c8f135">
+
+</div>
+</div>
+     
+<div class="funnel-bar-wrap">
+<div id="bar-rev" class="funnel-bar"
+style="width:10%;background:#c8f135">
+
+</div>
+</div>
+     
+<div id="fn-rev" class="funnel-count" style="color:#c8f135">
+—
+</div>
+   
+</div>
+ 
+</div>
+ <br />
+ 
+<div class="insight">
+   
+<div class="insight-label">
+💡 Инсайт
+</div>
+   
+<div id="insight-text" class="insight-text">
+Заполни данные выше — и здесь появится главный вывод по твоей воронке.
+</div>
+   
+<div id="insight-text" class="insight-text">
+Заполни данные выше — и здесь появится главный вывод по твоей воронке.
+</div>
+ 
+</div>
+ 
+</div>
+ <br />
+ 
+<div class="footer">
+ 
+<div class="footer">
+   
+<div class="footer-logo">
+ABRA CLUB
+</div>
+   
+<div class="footer-logo">
+ABRA CLUB
+</div>
+   
+<div class="footer-sub">
+Экосистема для тех, кто про маркетинг и продажи
+</div>
+ 
+</div>
+ 
+</div>
+<p> </p>
+</div>
+<script>  
+<script>  
+ const $ = id => document.getElementById(id);  
+ const $ = id => document.getElementById(id);  
+   
+ function fmt(n) {  
+   if (n >= 1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'') + ' млн';  
+   if (n >= 1000000) return (n/1000000).toFixed(1).replace(/\.0$/,'') + ' млн';  
+   if (n >= 1000) return Math.round(n/1000) + ' тыс';  
+   return Math.round(n).toString();  
+   return Math.round(n).toString();  
+ }  
+ }  
+   
+ function calc() {  
+   const goal = parseFloat($('goal').value) || 0;  
+   const goal = parseFloat($('goal').value) || 0;  
+   const check = parseFloat($('check').value) || 1;  
+   const conv = parseFloat($('conv').value) / 100;  
+   const leadConv = parseFloat($('lead-conv').value) / 100;  
+   const leadConv = parseFloat($('lead-conv').value) / 100;  
+   const repeat = parseFloat($('repeat').value) / 100;  
+   const cur = $('currency').value;  
+   const cur = $('currency').value;  
+   
+   const dealsNeeded = goal / check;  
+   const newDealsNeeded = dealsNeeded * (1 - repeat);  
+   const newDealsNeeded = dealsNeeded * (1 - repeat);  
+   const leadsNeeded = newDealsNeeded / conv;  
+   const leadsNeeded = newDealsNeeded / conv;  
+   const trafficNeeded = leadsNeeded / leadConv;  
+   const dailyLeads = leadsNeeded / 22;  
+   const dailyLeads = leadsNeeded / 22;  
+   
+   $('r-deals').textContent = Math.ceil(dealsNeeded);  
+   $('r-deals').textContent = Math.ceil(dealsNeeded);  
+   $('r-leads').textContent = Math.ceil(leadsNeeded);  
+   $('r-traffic').textContent = fmt(Math.ceil(trafficNeeded));  
+   $('r-traffic').textContent = fmt(Math.ceil(trafficNeeded));  
+   $('r-daily').textContent = Math.ceil(dailyLeads);  
+   
+   $('fn-traffic').textContent = fmt(Math.ceil(trafficNeeded));  
+   $('fn-leads').textContent = Math.ceil(leadsNeeded);  
+   $('fn-leads').textContent = Math.ceil(leadsNeeded);  
+   $('fn-deals').textContent = Math.ceil(dealsNeeded);  
+   $('fn-rev').textContent = fmt(goal) + ' ' + cur;  
+   
+   const max = trafficNeeded;  
+   const max = trafficNeeded;  
+   $('bar-traffic').style.width = '100%';  
+   $('bar-leads').style.width = Math.max(4, (leadsNeeded/max)*100) + '%';  
+   $('bar-deals').style.width = Math.max(2, (dealsNeeded/max)*100) + '%';  
+   $('bar-deals').style.width = Math.max(2, (dealsNeeded/max)*100) + '%';  
+   $('bar-rev').style.width = Math.max(2, (dealsNeeded/max)*100) + '%';  
+   $('bar-rev').style.width = Math.max(2, (dealsNeeded/max)*100) + '%';  
+   
+   const leadsPerDeal = Math.round(leadsNeeded / Math.max(1, dealsNeeded));  
+   const leadsPerDeal = Math.round(leadsNeeded / Math.max(1, dealsNeeded));  
+   let insight = '';  
+   let insight = '';  
+   if (conv < 0.05) {  
+   if (conv < 0.05) {  
+     insight = `Твоя конверсия в продажу <strong>${Math.round(conv*100)}%</strong> — это очень низко. Главный рычаг сейчас не трафик, а качество лидов и скрипт продаж. Подними конверсию до 15-20% — и нужный охват упадёт в разы.`;  
+   } else if (leadConv < 0.05) {  
+   } else if (leadConv < 0.05) {  
+     insight = `Конверсия из охвата в лид <strong>${Math.round(leadConv*100)}%</strong> говорит о слабом оффере. Люди видят предложение, но не реагируют. Попробуй изменить формулировку боли или добавить конкретный результат.`;  
+     insight = `Конверсия из охвата в лид <strong>${Math.round(leadConv*100)}%</strong> говорит о слабом оффере. Люди видят предложение, но не реагируют. Попробуй изменить формулировку боли или добавить конкретный результат.`;  
+   } else if (repeat > 0.3) {  
+   } else if (repeat > 0.3) {  
+     insight = `Отлично — у тебя <strong>${Math.round(repeat*100)}%</strong> повторных покупок. Это сильный актив. Фокус на удержании работает лучше чем постоянный поиск новых клиентов.`;  
+   } else {  
+   } else {  
+     insight = `Чтобы выйти на <strong>${fmt(goal)} ${cur}</strong>, нужно касаться примерно <strong>${fmt(Math.ceil(trafficNeeded))} человек</strong> в месяц. На каждую сделку приходится <strong>${leadsPerDeal} лидов</strong>. Главный вопрос: откуда возьмёшь этот трафик и как будешь прогревать?`;  
+     insight = `Чтобы выйти на <strong>${fmt(goal)} ${cur}</strong>, нужно касаться примерно <strong>${fmt(Math.ceil(trafficNeeded))} человек</strong> в месяц. На каждую сделку приходится <strong>${leadsPerDeal} лидов</strong>. Главный вопрос: откуда возьмёшь этот трафик и как будешь прогревать?`;  
+   }  
+   $('insight-text').innerHTML = insight;  
+ }  
+ }  
+   
+ $('conv').addEventListener('input', e => { $('conv-val').textContent = e.target.value; calc(); });  
+ $('lead-conv').addEventListener('input', e => { $('lead-conv-val').textContent = e.target.value; calc(); });  
+ $('lead-conv').addEventListener('input', e => { $('lead-conv-val').textContent = e.target.value; calc(); });  
+ $('repeat').addEventListener('input', e => { $('repeat-val').textContent = e.target.value; calc(); });  
+ $('repeat').addEventListener('input', e => { $('repeat-val').textContent = e.target.value; calc(); });  
+ $('goal').addEventListener('input', calc);  
+ $('goal').addEventListener('input', calc);  
+ $('check').addEventListener('input', calc);  
+ $('check').addEventListener('input', calc);  
+ $('currency').addEventListener('change', calc);  
+ $('currency').addEventListener('change', calc);  
+   
+ calc();  
+ calc();  
+</script>
+</body>
+</html>
+<p> </p>
